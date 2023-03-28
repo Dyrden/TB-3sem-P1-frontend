@@ -5,11 +5,16 @@ import {
   } from "./utils.js"
   
   import { initLogin,logout } from "./pages/loginPage/loginPage.js"
+  import { initAddUser } from "./pages/userAdmin/addUser/addUser.js"
+  import { initEditUser } from "./pages/userAdmin/editUser/editUser.js"
+  import { initDeleteUser } from "./pages/userAdmin/deleteUser/deleteUser.js"
 
-  console.log("testfhdherh")
   window.addEventListener("load", async () => {
   
     const templateLogin = await loadTemplate("./pages/loginPage/loginPage.html")
+    const templateAddUser = await loadTemplate("./pages/userAdmin/addUser/addUser.html")
+    const templateEditUser = await loadTemplate("./pages/userAdmin/editUser/editUser.html")
+    const templateDeleteUser = await loadTemplate("./pages/userAdmin/deleteUser/deleteUser.html")
 
   
     adjustForMissingHash()
@@ -33,7 +38,7 @@ import {
           <p style='margin-top:1em;font-size: 1.5em;color:darkgray;'>
             Car's 'R' Us - Created, as a help to make GREAT fullstack developers <span style='font-size:2em;'>&#128516;</span>
           </p>
-       `,
+        `,
         "/loginPage": () => {
             console.log("The function was called.")
           renderTemplate(templateLogin, "content")
@@ -41,14 +46,36 @@ import {
         },
         "/logout": () => {
           logout()
+        },
+        "/userAdmin/addUser": () => {
+          renderTemplate(templateAddUser, "content")
+          initAddUser()
+        },
+        "/userAdmin/editUser": () => {
+          renderTemplate(templateEditUser, "content")
+          initEditUser()
+          
+        },
+        "/userAdmin/deleteUser": () => {
+          renderTemplate(templateDeleteUser, "content")
+          initDeleteUser()
+
         }
+
+        // flip user
+
       })
       .notFound(() => {
-        renderTemplate(templateNotFound, "content")
+        renderTemplate(templateNotFound, "content") // <- make this HTML 
       })
       .resolve()
   });
   
+  export function checkRole(role) {
+    //look at storage roles, return boolean check. If true, show content, if not, dont
+  }
+
+
   
   window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
     alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
